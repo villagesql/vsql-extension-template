@@ -68,8 +68,7 @@ INSTALL EXTENSION vsql_extension_template;
 Then test the function:
 
 ```sql
--- The hello_world function should now be available (note the namespace qualification)
-SELECT vsql_extension_template.hello_world();
+SELECT hello_world();
 -- Returns: Hello, World!
 ```
 
@@ -138,7 +137,6 @@ To create your own extension:
 ## Extension Development Tips
 
 - **Extension Naming**: Always use underscores in extension names, not hyphens
-- **Function Qualification**: Functions must be called with namespace qualification (e.g., `extension_name.function_name()`)
 - **Return Types**: Common types are `STRING`, `INT`, `REAL`, or custom types
 - **Result Types**: Set `result->type` to `VEF_RESULT_VALUE`, `VEF_RESULT_NULL`, or `VEF_RESULT_ERROR`
 - **String Results**: Copy to `result->str_buf` and set `result->actual_len`
@@ -196,7 +194,7 @@ Then in VillageSQL:
 
 ```sql
 INSTALL EXTENSION vsql_extension_template;
-SELECT vsql_extension_template.greet('VillageSQL');
+SELECT greet('VillageSQL');
 ```
 
 ## Resources

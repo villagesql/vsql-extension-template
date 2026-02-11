@@ -2,10 +2,10 @@ INSTALL EXTENSION vsql_extension_template;
 #
 # Test basic hello_world function
 #
-SELECT vsql_extension_template.hello_world() AS result;
+SELECT hello_world() AS result;
 result
 Hello, World!
-SELECT vsql_extension_template.hello_world() = 'Hello, World!' AS test_result;
+SELECT hello_world() = 'Hello, World!' AS test_result;
 test_result
 1
 #

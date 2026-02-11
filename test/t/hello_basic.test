@@ -6,10 +6,10 @@ INSTALL EXTENSION vsql_extension_template;
 --echo #
 
 # Test hello_world function returns correct string
-SELECT vsql_extension_template.hello_world() AS result;
+SELECT hello_world() AS result;
 
 # Test hello_world returns expected value
-SELECT vsql_extension_template.hello_world() = 'Hello, World!' AS test_result;
+SELECT hello_world() = 'Hello, World!' AS test_result;
 
 --echo #
 --echo # Cleanup
