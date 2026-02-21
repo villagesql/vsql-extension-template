@@ -12,7 +12,7 @@ This is a template project for creating VillageSQL extensions. It provides the m
 
 - **Build**: `cmake . && make` (or `mkdir build && cd build && cmake .. && make`)
 - **Create VEB package**: Automatically created during `make`
-- **Install extension**: `make install` (if VEB_INSTALL_DIR is defined)
+- **Install extension**: `make install` (if VillageSQL_VEB_INSTALL_DIR is defined)
 
 The build process:
 1. Uses CMake to find VillageSQL via `find_package(VillageSQL REQUIRED)`
