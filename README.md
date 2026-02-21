@@ -66,7 +66,7 @@ vsql_extension_template/
 make install
 ```
 
-This copies the VEB to the directory specified by `VEB_INSTALL_DIR`. If not using `make install`, you can manually copy the VEB file to your desired location.
+This copies the VEB to the directory specified by `VillageSQL_VEB_INSTALL_DIR`. If not using `make install`, you can manually copy the VEB file to your desired location.
 
 ## Using the Extension
 
@@ -224,7 +224,7 @@ VEF_GENERATE_ENTRY_POINTS(
    ```bash
    cd build
    make -j $(($(getconf _NPROCESSORS_ONLN) - 2))
-   make install  # If VEB_INSTALL_DIR is configured
+   make install  # If VillageSQL_VEB_INSTALL_DIR is configured
    ```
 
    Then in VillageSQL:
