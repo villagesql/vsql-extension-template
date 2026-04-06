@@ -164,7 +164,7 @@ To create your own extension:
    - Modify `src/hello.cc` or create new source files
    - Use the VDF API signature: `void func_impl(vef_context_t* ctx, [args...], vef_vdf_result_t* result)`
    - Register functions using `VEF_GENERATE_ENTRY_POINTS()` macro
-   - Include `<villagesql/extension.h>`
+   - Include `<villagesql/vsql.h>`
 
 4. **Create Tests**:
    - Add `.test` files in the `test/t/` directory
