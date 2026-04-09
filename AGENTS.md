@@ -29,8 +29,8 @@ Set `VillageSQL_BUILD_DIR` to point to your VillageSQL build directory.
 - `manifest.json` - Extension metadata (name, version, description, author, license)
 - `CMakeLists.txt` - CMake build configuration
 - `cmake/FindVillageSQL.cmake` - CMake module for finding VillageSQL
-- `test/t/` - Test files directory (`.test` files using MTR framework)
-- `test/r/` - Expected test results directory (`.result` files)
+- `mysql-test/t/` - Test files directory (`.test` files using MTR framework)
+- `mysql-test/r/` - Expected test results directory (`.result` files)
 
 **Available Functions:**
 - `hello_world()` - Returns the string "Hello, World!"
@@ -111,12 +111,12 @@ VEF_GENERATE_ENTRY_POINTS(
 
 The extension includes test files using the MySQL Test Runner (MTR) framework:
 - **Test Location**:
-  - `test/t/` directory contains `.test` files with SQL test commands
-  - `test/r/` directory contains `.result` files with expected output
+  - `mysql-test/t/` directory contains `.test` files with SQL test commands
+  - `mysql-test/r/` directory contains `.result` files with expected output
 - **Run Tests**:
   ```bash
   cd <BUILD_DIR>/mysql-test
-  perl mysql-test-run.pl --suite=<path-to-vsql-extension-template>/test
+  perl mysql-test-run.pl --suite=<path-to-vsql-extension-template>/mysql-test
   ```
   Where `<BUILD_DIR>` is your VillageSQL/MySQL build directory
 - **Create/Update Results**: Use `--record` flag to generate or update expected `.result` files:
@@ -169,8 +169,8 @@ To create your own extension:
    - No separate `install.sql` file is needed
 
 5. **Create tests**:
-   - Add `.test` files in `test/t/` directory
-   - Generate expected results in `test/r/` using `--record` flag
+   - Add `.test` files in `mysql-test/t/` directory
+   - Generate expected results in `mysql-test/r/` using `--record` flag
    - Each test should install extension, test functions, and clean up
    - Verify function behavior with various inputs
 
@@ -218,8 +218,8 @@ When asked to add functionality to this template:
    - Example: OpenSSL requires `find_package(OpenSSL REQUIRED)` and `target_link_libraries(hello PRIVATE ${OPENSSL_LIBRARIES})`
 
 4. **Testing**:
-   - Create or update `.test` files in `test/t/` directory
-   - Generate expected results in `test/r/` using `--record`
+   - Create or update `.test` files in `mysql-test/t/` directory
+   - Generate expected results in `mysql-test/r/` using `--record`
    - Use extension name with underscores in `INSTALL EXTENSION` commands
 
 5. **Documentation**:

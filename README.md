@@ -16,7 +16,7 @@ vsql_extension_template/
 │   └── FindVillageSQL.cmake  # CMake module for finding VillageSQL
 ├── src/
 │   └── hello.cc           # C++ implementation using VEF API
-└── test/
+└── mysql-test/
     ├── t/                 # Test files (.test)
     │   └── hello_basic.test
     └── r/                 # Expected results (.result)
@@ -98,19 +98,19 @@ This method assumes you have successfully run `make install` to install the VEB 
 **Linux:**
 ```bash
 cd $HOME/build/villagesql/mysql-test
-perl mysql-test-run.pl --suite=/path/to/vsql-extension-template/test
+perl mysql-test-run.pl --suite=/path/to/vsql-extension-template/mysql-test
 
 # Run with specific options
-perl mysql-test-run.pl --suite=/path/to/vsql-extension-template/test --parallel=auto
+perl mysql-test-run.pl --suite=/path/to/vsql-extension-template/mysql-test --parallel=auto
 ```
 
 **macOS:**
 ```bash
 cd ~/build/villagesql/mysql-test
-perl mysql-test-run.pl --suite=/path/to/vsql-extension-template/test
+perl mysql-test-run.pl --suite=/path/to/vsql-extension-template/mysql-test
 
 # Run with specific options
-perl mysql-test-run.pl --suite=/path/to/vsql-extension-template/test --parallel=auto
+perl mysql-test-run.pl --suite=/path/to/vsql-extension-template/mysql-test --parallel=auto
 ```
 
 **Option 2: Using a specific VEB file**
@@ -121,14 +121,14 @@ Use this to test a specific VEB build without installing it first:
 ```bash
 cd $HOME/build/villagesql/mysql-test
 VSQL_EXTENSION_TEMPLATE_VEB=/path/to/build/vsql_extension_template.veb \
-  perl mysql-test-run.pl --suite=/path/to/vsql-extension-template/test
+  perl mysql-test-run.pl --suite=/path/to/vsql-extension-template/mysql-test
 ```
 
 **macOS:**
 ```bash
 cd ~/build/villagesql/mysql-test
 VSQL_EXTENSION_TEMPLATE_VEB=/path/to/build/vsql_extension_template.veb \
-  perl mysql-test-run.pl --suite=/path/to/vsql-extension-template/test
+  perl mysql-test-run.pl --suite=/path/to/vsql-extension-template/mysql-test
 ```
 
 ### Creating/Updating Test Results
@@ -167,7 +167,7 @@ To create your own extension:
    - Include `<villagesql/extension.h>`
 
 4. **Create Tests**:
-   - Add `.test` files in the `test/t/` directory
+   - Add `.test` files in the `mysql-test/t/` directory
    - Generate expected results with `--record` flag
    - Verify your functions work correctly
 
