@@ -275,8 +275,7 @@ SELECT greet('VillageSQL');
 - Ensure the extension is installed: `SELECT * FROM INFORMATION_SCHEMA.EXTENSIONS;`
 - Try using explicit namespace: `extension_name.function_name()`
 - Check the server's VEF protocol support level to confirm compatibility with
-  your extension: `SELECT @@villagesql_vef_server_protocol;` (the current
-  server build returns `2`, corresponding to `VEF_PROTOCOL_2`)
+  your extension: `SELECT @@villagesql_vef_server_protocol;`
 
 ## Resources
 
