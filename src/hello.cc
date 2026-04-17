@@ -14,19 +14,18 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <villagesql/extension.h>
+#include <villagesql/vsql.h>
 
 #include <cstring>
 
-using namespace villagesql::extension_builder;
-using namespace villagesql::func_builder;
+using namespace vsql;
 
 // Hello world function implementation
-void hello_world_impl(vef_context_t* ctx, vef_vdf_result_t* result) {
+void hello_world_impl(StringResult out) {
   const char* hello = "Hello, World!";
-  strcpy(result->str_buf, hello);
-  result->type = VEF_RESULT_VALUE;
-  result->actual_len = strlen(hello);
+  auto buf = out.buffer();
+  memcpy(buf.data(), hello, strlen(hello));
+  out.set_length(strlen(hello));
 }
 
 // Extension registration
