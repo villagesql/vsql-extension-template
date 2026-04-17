@@ -50,16 +50,18 @@ Set `VillageSQL_BUILD_DIR` to point to your VillageSQL build directory.
 
 VEF has two protocols:
 
-- **Protocol 2 (current)** — typed C++ API. Include `<villagesql/vsql.h>`,
+- **Protocol 2 (in development)** — typed C++ API. Include `<villagesql/vsql.h>`,
   `using namespace vsql;`. Functions use typed wrappers (`IntArg`, `StringResult`,
-  etc.) instead of raw pointers. This template uses Protocol 2.
-- **Protocol 1 (legacy)** — raw ABI. Include `<villagesql/extension.h>`,
+  etc.) instead of raw pointers. Not yet available in the public SDK — `vsql.h`
+  is still being finalized in the server.
+- **Protocol 1 (current)** — raw ABI. Include `<villagesql/extension.h>`,
   `using namespace villagesql::extension_builder; using namespace villagesql::func_builder;`.
   Functions take `vef_context_t*` and `vef_vdf_result_t*` parameters directly.
+  This template uses Protocol 1.
 
-Use Protocol 2 for all new extensions. If you encounter documentation or examples
-using `extension.h` or `vef_context_t*`, those are Protocol 1 — do not mix the two
-in the same extension.
+Use Protocol 1 for all new extensions until Protocol 2 ships. When Protocol 2 is
+available, `vsql.h` will be in the public SDK `include/` directory and this template
+will be updated. Do not mix the two protocols in the same extension.
 
 Functions are registered using the `VEF_GENERATE_ENTRY_POINTS()` macro with a fluent builder interface.
 
