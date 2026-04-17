@@ -52,37 +52,40 @@ VEF provides a modern C++ API for creating extensions. Functions are registered 
 
 ### Basic Function Implementation
 
-Each function is implemented as a single function that takes context and result parameters:
+Each function uses typed wrapper parameters — no raw ABI types needed:
 
 ```cpp
-#include <villagesql/extension.h>
+#include <villagesql/vsql.h>
 
-using namespace villagesql::extension_builder;
-using namespace villagesql::func_builder;
+#include <cstring>
 
-// Function implementation
-void my_function_impl(vef_context_t* ctx, vef_vdf_result_t* result) {
-    // Implement function logic
-    // Set result->type (IS_VALUE, IS_NULL, IS_ERROR)
-    // For strings: copy to result->str_buf, set result->actual_len
-    // For integers: set result->int_value
-    // For binary: copy to result->bin_buf, set result->actual_len
+using namespace vsql;
+
+// Integer result (no args)
+void my_function_impl(IntResult out) {
+    out.set(42);
+}
+
+// String result: write into buffer(), then call set_length()
+void my_string_impl(StringResult out) {
+    const char* value = "result";
+    auto buf = out.buffer();
+    memcpy(buf.data(), value, strlen(value));
+    out.set_length(strlen(value));
 }
 ```
 
 ### Function with Arguments
 
-For functions with arguments, add `vef_invalue_t*` parameters:
+Typed input wrappers (`IntArg`, `RealArg`, `StringArg`, `CustomArg`) provide
+`is_null()` and `value()`. List args before the result parameter:
 
 ```cpp
-void my_function_impl(vef_context_t* ctx,
-                      vef_invalue_t* arg1,
-                      vef_invalue_t* arg2,
-                      vef_vdf_result_t* result) {
-    // Check for NULL: arg1->is_null
-    // Access string: arg1->str_value, arg1->str_len
-    // Access integer: arg1->int_value
-    // Access binary: arg1->bin_value, arg1->bin_len
+void my_function_impl(IntArg arg1, StringArg arg2, IntResult out) {
+    if (arg1.is_null() || arg2.is_null()) { out.set_null(); return; }
+    // arg1.value() -> int64_t
+    // arg2.value() -> std::string_view
+    out.set(arg1.value());
 }
 ```
 
@@ -103,9 +106,12 @@ VEF_GENERATE_ENTRY_POINTS(
 
 ### Result Types
 
-- `IS_VALUE` - Function returned a value
-- `IS_NULL` - Function returned NULL
-- `IS_ERROR` - Function encountered an error (set `result->error_msg`)
+Call the typed wrapper method on the result parameter:
+
+- `out.set(value)` / `out.set_length(n)` — returns a value (`VEF_RESULT_VALUE`)
+- `out.set_null()` — returns SQL NULL
+- `out.warning(msg)` — returns NULL and adds a SQL warning
+- `out.error(msg)` — aborts statement execution with an error
 
 ## Testing
 
@@ -203,7 +209,7 @@ When creating new source files, always include this copyright block before any c
 When asked to add functionality to this template:
 
 1. **Adding a new function**:
-   - Create implementation function with signature: `void func_impl(vef_context_t* ctx, [args...], vef_vdf_result_t* result)`
+   - Create implementation function with typed wrappers: `void func_impl(IntArg a, StringResult out)` (args first, result last)
    - Add function to `VEF_GENERATE_ENTRY_POINTS()` block using `.func(make_func<&func_impl>("name")...)`
    - Specify return type, parameters, and buffer size
    - Add to CMakeLists.txt if creating new source file
@@ -230,4 +236,4 @@ When asked to add functionality to this template:
 - Always include proper copyright headers in source files
 - Use C++17 standard
 - Functions are registered in code using VEF API (no install.sql needed)
-- Result types: IS_VALUE, IS_NULL, IS_ERROR
+- Result: call `out.set(v)`, `out.set_null()`, `out.warning(msg)`, or `out.error(msg)`
