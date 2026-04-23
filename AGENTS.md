@@ -92,7 +92,7 @@ Use the `VEF_GENERATE_ENTRY_POINTS()` macro to register the extension and its fu
 
 ```cpp
 VEF_GENERATE_ENTRY_POINTS(
-  make_extension("extension_name", "version")
+  make_extension()
     .func(make_func<&my_function_impl>("my_function")
       .returns(STRING)  // or INT, REAL, UUID, etc.
       .param(STRING)    // Add .param() for each argument
