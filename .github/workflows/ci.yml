@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         vsql:
-          - "0.0.2"
+          - "0.0.3"
           - "main"
     runs-on: ubuntu-latest
     steps:
