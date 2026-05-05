@@ -125,7 +125,7 @@ Call the typed wrapper method on the result parameter:
 
 - `out.set(value)` / `out.set_length(n)` — returns a value (`VEF_RESULT_VALUE`)
 - `out.set_null()` — returns SQL NULL
-- `out.warning(msg)` — returns NULL and adds a SQL warning
+- `out.warning(msg)` — returns NULL with a SQL warning; call instead of `out.set()`, not in addition to it
 - `out.error(msg)` — aborts statement execution with an error
 
 ## Testing
