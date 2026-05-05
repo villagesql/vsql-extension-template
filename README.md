@@ -206,7 +206,7 @@ void greet_impl(vef_context_t* ctx,
 
 ```cpp
 VEF_GENERATE_ENTRY_POINTS(
-  make_extension("vsql_extension_template", "1.0.0")
+  make_extension()
     .func(make_func<&hello_world_impl>("hello_world")
       .returns(STRING)
       .buffer_size(14)
