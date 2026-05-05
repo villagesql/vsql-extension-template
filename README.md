@@ -162,9 +162,9 @@ To create your own extension:
 
 3. **Implement Your Functions**:
    - Modify `src/hello.cc` or create new source files
-   - Use the VDF API signature: `void func_impl(vef_context_t* ctx, [args...], vef_vdf_result_t* result)`
+   - Use typed wrapper parameters: `IntArg`, `RealArg`, `StringArg`, `StringResult`, etc.
    - Register functions using `VEF_GENERATE_ENTRY_POINTS()` macro
-   - Include `<villagesql/extension.h>`
+   - Include `<villagesql/vsql.h>`
 
 4. **Create Tests**:
    - Add `.test` files in the `mysql-test/t/` directory
