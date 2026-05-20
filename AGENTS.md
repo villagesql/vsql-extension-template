@@ -48,26 +48,15 @@ Set `VillageSQL_BUILD_DIR` to point to your VillageSQL build directory.
 
 ## VillageSQL Extension Framework (VEF) API Pattern
 
-VEF has two protocols:
-
-- **Protocol 2 (in development)** — typed C++ API. Include `<villagesql/vsql.h>`,
-  `using namespace vsql;`. Functions use typed wrappers (`IntArg`, `StringResult`,
-  etc.) instead of raw pointers. Not yet available in the public SDK — `vsql.h`
-  is still being finalized in the server.
-- **Protocol 1 (current)** — raw ABI. Include `<villagesql/extension.h>`,
-  `using namespace villagesql::extension_builder; using namespace villagesql::func_builder;`.
-  Functions take `vef_context_t*` and `vef_vdf_result_t*` parameters directly.
-  This template uses Protocol 1.
-
-Use Protocol 1 for all new extensions until Protocol 2 ships. When Protocol 2 is
-available, `vsql.h` will be in the public SDK `include/` directory and this template
-will be updated. Do not mix the two protocols in the same extension.
+Extensions use the typed C++ API: include `<villagesql/vsql.h>` and
+`using namespace vsql;`. Functions use typed wrappers (`IntArg`, `StringResult`,
+etc.). Do not mix protocols in the same extension.
 
 Functions are registered using the `VEF_GENERATE_ENTRY_POINTS()` macro with a fluent builder interface.
 
 ### Basic Function Implementation
 
-Each function uses typed wrapper parameters — no raw ABI types needed:
+Each function uses typed wrapper parameters:
 
 ```cpp
 #include <villagesql/vsql.h>
@@ -200,7 +189,7 @@ To create your own extension:
 All source code files (`.cc`, `.h`, `.cpp`, `.hpp`) and CMake files (`CMakeLists.txt`) must include the following copyright header at the top of the file:
 
 ```
-/* Copyright (c) 2025 VillageSQL Contributors
+/* Copyright (c) 2026 VillageSQL Contributors
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License

@@ -1,4 +1,4 @@
-/* Copyright (c) 2025 VillageSQL Contributors
+/* Copyright (c) 2026 VillageSQL Contributors
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,26 +14,23 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <villagesql/extension.h>
+#include <villagesql/vsql.h>
 
 #include <cstring>
 
-using namespace villagesql::extension_builder;
-using namespace villagesql::func_builder;
+using namespace vsql;
 
-// Hello world function implementation
-void hello_world_impl(vef_context_t* ctx, vef_vdf_result_t* result) {
+void hello_world_impl(StringResult out) {
   const char* hello = "Hello, World!";
-  strcpy(result->str_buf, hello);
-  result->type = VEF_RESULT_VALUE;
-  result->actual_len = strlen(hello);
+  auto buf = out.buffer();
+  memcpy(buf.data(), hello, strlen(hello));
+  out.set_length(strlen(hello));
 }
 
-// Extension registration
 VEF_GENERATE_ENTRY_POINTS(
-  make_extension("vsql_extension_template", "1.0.0")
+  make_extension()
     .func(make_func<&hello_world_impl>("hello_world")
       .returns(STRING)
-      .buffer_size(14)  // "Hello, World!" + null terminator
+      .buffer_size(14)
       .build())
 )

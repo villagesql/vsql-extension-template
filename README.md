@@ -162,9 +162,9 @@ To create your own extension:
 
 3. **Implement Your Functions**:
    - Modify `src/hello.cc` or create new source files
+   - Include `<villagesql/vsql.h>` and `using namespace vsql;`
    - Use typed wrapper parameters: `IntArg`, `RealArg`, `StringArg`, `StringResult`, etc.
    - Register functions using `VEF_GENERATE_ENTRY_POINTS()` macro
-   - Include `<villagesql/vsql.h>`
 
 4. **Create Tests**:
    - Add `.test` files in the `mysql-test/t/` directory
@@ -175,10 +175,9 @@ To create your own extension:
 
 - **Extension Naming**: Always use underscores in extension names, not hyphens
 - **Return Types**: Common types are `STRING`, `INT`, `REAL`, or custom types
-- **Result Types**: Set `result->type` to `VEF_RESULT_VALUE`, `VEF_RESULT_NULL`, or `VEF_RESULT_ERROR`
-- **String Results**: Copy to `result->str_buf` and set `result->actual_len`
-- **Error Handling**: Set `result->type = VEF_RESULT_ERROR` and copy message to `result->error_msg`
-- **NULL Handling**: Check `arg->is_null` for input arguments
+- **String Results**: Write into `out.buffer()`, then call `out.set_length(n)`
+- **NULL Handling**: Call `arg.is_null()` on input args; call `out.set_null()` to return NULL
+- **Error Handling**: Call `out.error(msg)` to abort with an error; `out.warning(msg)` for a warning
 - **Testing**: Always test with various inputs including edge cases and NULL values
 
 ## Example: Adding a New Function
@@ -186,19 +185,13 @@ To create your own extension:
 1. Add implementation to `src/hello.cc`:
 
 ```cpp
-// Function implementation
-void greet_impl(vef_context_t* ctx,
-                vef_invalue_t* name_arg,
-                vef_vdf_result_t* result) {
-    if (name_arg->is_null) {
-        result->type = VEF_RESULT_NULL;
-        return;
-    }
-
-    snprintf(result->str_buf, 256, "Hello, %.*s!",
-             (int)name_arg->str_len, name_arg->str_value);
-    result->type = VEF_RESULT_VALUE;
-    result->actual_len = strlen(result->str_buf);
+void greet_impl(StringArg name, StringResult out) {
+    if (name.is_null()) { out.set_null(); return; }
+    auto val = name.value();
+    auto buf = out.buffer();
+    auto len = snprintf(buf.data(), buf.size(), "Hello, %.*s!",
+                        (int)val.size(), val.data());
+    out.set_length(len);
 }
 ```
 
@@ -258,10 +251,6 @@ cmake .. -DVillageSQL_BUILD_DIR=~/build/villagesql
 # macOS with Homebrew
 brew install openssl@3
 cmake .. -DVillageSQL_BUILD_DIR=~/build/villagesql -DWITH_SSL=/opt/homebrew/opt/openssl@3
-
-```sql
-INSTALL EXTENSION vsql_extension_template;
-SELECT greet('VillageSQL');
 ```
 
 ### Extension Loading Issues
