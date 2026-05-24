@@ -202,6 +202,7 @@ VEF_GENERATE_ENTRY_POINTS(
   make_extension()
     .func(make_func<&hello_world_impl>("hello_world")
       .returns(STRING)
+      .no_params()
       .buffer_size(14)
       .build())
     .func(make_func<&greet_impl>("greet")
