@@ -141,7 +141,7 @@ The extension includes test files using the MySQL Test Runner (MTR) framework:
 After building the VEB file, load the extension in VillageSQL:
 
 ```sql
-INSTALL EXTENSION 'vsql_extension_template';
+INSTALL EXTENSION vsql_extension_template;
 ```
 
 Then test the functions:
