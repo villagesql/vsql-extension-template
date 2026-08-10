@@ -26,9 +26,8 @@ vsql_extension_template/
 ## Prerequisites
 
 - VillageSQL build directory (with completed build)
-- CMake 3.16 or higher
+- CMake 3.18 or higher
 - C++ compiler with C++17 support
-- OpenSSL development libraries
 
 📚 **Full Documentation**: Visit [villagesql.com/docs](https://villagesql.com/docs) for comprehensive guides on building extensions, architecture details, and more.
 
@@ -47,7 +46,7 @@ vsql_extension_template/
    ```bash
    mkdir build
    cd build
-   cmake .. -DVillageSQL_BUILD_DIR=~/build/villagesql
+   cmake .. -DVillageSQL_BUILD_DIR="$HOME/build/villagesql"
    ```
 
    **Note**: `VillageSQL_BUILD_DIR` should point to your VillageSQL build directory. The VEB install directory is automatically set to `${VillageSQL_BUILD_DIR}/veb_output_directory`.
@@ -55,7 +54,7 @@ vsql_extension_template/
 2. Build the extension:
 
    ```bash
-   make -j $(($(getconf _NPROCESSORS_ONLN) - 2))
+   make -j $(getconf _NPROCESSORS_ONLN)
    ```
 
    This creates the `vsql_extension_template.veb` package in the build directory.
@@ -91,7 +90,7 @@ The extension includes test files using the MySQL Test Runner (MTR) framework.
 
 ### Running Tests
 
-**Option 1 (Default): Using installed VEB**
+**Option 1 (Default): Using the installed VEB**
 
 This method assumes you have successfully run `make install` to install the VEB to your veb_dir.
 
@@ -113,22 +112,17 @@ perl mysql-test-run.pl --suite=/path/to/vsql-extension-template/mysql-test
 perl mysql-test-run.pl --suite=/path/to/vsql-extension-template/mysql-test --parallel=auto
 ```
 
-**Option 2: Using a specific VEB file**
+**Option 2: Testing a VEB you have not installed**
 
-Use this to test a specific VEB build without installing it first:
+Point MTR at any directory holding the `.veb` with `--veb-source-dir`. It copies
+from there in addition to the usual locations, so you can test a fresh build
+without `make install`:
 
-**Linux:**
 ```bash
 cd $HOME/build/villagesql/mysql-test
-VSQL_EXTENSION_TEMPLATE_VEB=/path/to/build/vsql_extension_template.veb \
-  perl mysql-test-run.pl --suite=/path/to/vsql-extension-template/mysql-test
-```
-
-**macOS:**
-```bash
-cd ~/build/villagesql/mysql-test
-VSQL_EXTENSION_TEMPLATE_VEB=/path/to/build/vsql_extension_template.veb \
-  perl mysql-test-run.pl --suite=/path/to/vsql-extension-template/mysql-test
+perl mysql-test-run.pl \
+  --veb-source-dir=/path/to/vsql-extension-template/build \
+  --suite=/path/to/vsql-extension-template/mysql-test
 ```
 
 ### Creating/Updating Test Results
@@ -173,7 +167,7 @@ To create your own extension:
 
 ## Extension Development Tips
 
-- **Extension Naming**: Always use underscores in extension names, not hyphens
+- **Extension Naming**: Use underscores in extension names. A hyphenated name is a syntax error in `INSTALL EXTENSION` unless backtick-quoted, so underscores keep the statement quoting-free
 - **Return Types**: Common types are `STRING`, `INT`, `REAL`, or custom types
 - **String Results**: Write into `out.buffer()`, then call `out.set_length(n)`
 - **NULL Handling**: Call `arg.is_null()` on input args; call `out.set_null()` to return NULL
@@ -217,7 +211,7 @@ VEF_GENERATE_ENTRY_POINTS(
 
    ```bash
    cd build
-   make -j $(($(getconf _NPROCESSORS_ONLN) - 2))
+   make -j $(getconf _NPROCESSORS_ONLN)
    make install  # If VillageSQL_VEB_INSTALL_DIR is configured
    ```
 
@@ -244,14 +238,7 @@ VEF_GENERATE_ENTRY_POINTS(
 cmake .. -DVillageSQL_BUILD_DIR=$HOME/build/villagesql
 
 # macOS:
-cmake .. -DVillageSQL_BUILD_DIR=~/build/villagesql
-```
-
-**OpenSSL not found:**
-```bash
-# macOS with Homebrew
-brew install openssl@3
-cmake .. -DVillageSQL_BUILD_DIR=~/build/villagesql -DWITH_SSL=/opt/homebrew/opt/openssl@3
+cmake .. -DVillageSQL_BUILD_DIR="$HOME/build/villagesql"
 ```
 
 ### Extension Loading Issues
