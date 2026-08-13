@@ -1,5 +1,9 @@
 # Verifies contributors have signed the CLA before their PR can be merged.
 #
+# Copied this template to start your own extension? Delete this file. It writes
+# signatures into a repo only the VillageSQL org can reach. Every step is
+# guarded on the owner, so it passes rather than fails if you leave it.
+#
 # The "CLAAssistant" job is a required status check on main (see repo ruleset).
 # Because it's required, the job must ALWAYS run and report success — we
 # cannot skip the job at the job level, or the required check never reports
@@ -31,8 +35,9 @@ jobs:
       #     covered by org-level agreements
       # When this step runs, the required `CLAAssistant` check reports success
       # without consulting the CLA signatures.
-      - name: "Skip CLA check (upstream-merge or org member)"
+      - name: "Skip CLA check (copied template, upstream-merge, or org member)"
         if: >
+          github.repository_owner != 'villagesql' ||
           contains(github.event.pull_request.labels.*.name, 'upstream-merge') ||
           contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.pull_request.author_association)
         run: echo "CLA check not required for this PR"
@@ -46,6 +51,7 @@ jobs:
       # job still finishes successfully (no failed step).
       - name: "CLA Assistant"
         if: >
+          github.repository_owner == 'villagesql' &&
           !contains(github.event.pull_request.labels.*.name, 'upstream-merge') &&
           !contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.pull_request.author_association) &&
           ((contains(github.event.comment.body, 'recheck') ||

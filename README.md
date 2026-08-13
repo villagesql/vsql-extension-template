@@ -25,9 +25,18 @@ vsql_extension_template/
 
 ## Prerequisites
 
-- VillageSQL build directory (with completed build)
 - CMake 3.18 or higher
 - C++ compiler with C++17 support
+- VillageSQL. You do **not** need to build the server from source. The install
+  script sets up a server *and* the extension SDK under `~/.villagesql`:
+
+  ```bash
+  curl -fsSL https://install.villagesql.com | INSTALL_METHOD=prebuilt bash
+  ```
+
+  (`INSTALL_METHOD=prebuilt` picks the path that installs the SDK locally; the
+  Docker option keeps it inside the image.) A VillageSQL build directory works
+  too, if you already have one.
 
 📚 **Full Documentation**: Visit [villagesql.com/docs](https://villagesql.com/docs) for comprehensive guides on building extensions, architecture details, and more.
 
@@ -49,7 +58,12 @@ vsql_extension_template/
    cmake .. -DVillageSQL_BUILD_DIR="$HOME/build/villagesql"
    ```
 
-   **Note**: `VillageSQL_BUILD_DIR` should point to your VillageSQL build directory. The VEB install directory is automatically set to `${VillageSQL_BUILD_DIR}/veb_output_directory`.
+   **If you used the install script**, point at what it laid down:
+   ```bash
+   cmake -S . -B build -DVillageSQL_BUILD_DIR="$HOME/.villagesql/prebuilt"
+   ```
+
+   **Note**: `VillageSQL_BUILD_DIR` should point to your VillageSQL build directory. The VEB install directory is automatically set to `${VillageSQL_BUILD_DIR}/veb_output_directory`. To build against an unpacked SDK on its own, use `-DVillageSQL_SDK_DIR=/path/to/villagesql-extension-sdk-<version>` — that sets no install directory, so copy the VEB to wherever the server reads them (`SHOW VARIABLES LIKE 'veb_dir'`).
 
 2. Build the extension:
 
