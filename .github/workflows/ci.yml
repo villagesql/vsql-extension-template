@@ -13,3 +13,5 @@ jobs:
         with:
           extension-name: vsql_extension_template
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          # A fixed release, so this build only changes when you change it.
+          villagesql-version: "0.0.5"
