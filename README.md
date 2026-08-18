@@ -41,17 +41,10 @@ vsql_extension_template/
 📚 **Full Documentation**: Visit [villagesql.com/docs](https://villagesql.com/docs) for comprehensive guides on building extensions, architecture details, and more.
 
 ## Building the Extension
+> **Note:** These steps are the same on Linux and macOS. Paths use `$HOME`.
 
 1. Create a build directory and configure:
 
-   **Linux:**
-   ```bash
-   mkdir build
-   cd build
-   cmake .. -DVillageSQL_BUILD_DIR=$HOME/build/villagesql
-   ```
-
-   **macOS:**
    ```bash
    mkdir build
    cd build
@@ -108,18 +101,8 @@ The extension includes test files using the MySQL Test Runner (MTR) framework.
 
 This method assumes you have successfully run `make install` to install the VEB to your veb_dir.
 
-**Linux:**
 ```bash
 cd $HOME/build/villagesql/mysql-test
-perl mysql-test-run.pl --suite=/path/to/vsql-extension-template/mysql-test
-
-# Run with specific options
-perl mysql-test-run.pl --suite=/path/to/vsql-extension-template/mysql-test --parallel=auto
-```
-
-**macOS:**
-```bash
-cd ~/build/villagesql/mysql-test
 perl mysql-test-run.pl --suite=/path/to/vsql-extension-template/mysql-test
 
 # Run with specific options
@@ -143,15 +126,8 @@ perl mysql-test-run.pl \
 
 To create or update expected test results:
 
-**Linux:**
 ```bash
 cd $HOME/build/villagesql/mysql-test
-perl mysql-test-run.pl --suite=/path/to/test --record
-```
-
-**macOS:**
-```bash
-cd ~/build/villagesql/mysql-test
 perl mysql-test-run.pl --suite=/path/to/test --record
 ```
 
@@ -248,10 +224,6 @@ VEF_GENERATE_ENTRY_POINTS(
 **VillageSQL SDK not found:**
 ```bash
 # Make sure VillageSQL_BUILD_DIR points to your build directory
-# Linux:
-cmake .. -DVillageSQL_BUILD_DIR=$HOME/build/villagesql
-
-# macOS:
 cmake .. -DVillageSQL_BUILD_DIR="$HOME/build/villagesql"
 ```
 
@@ -271,7 +243,7 @@ cmake .. -DVillageSQL_BUILD_DIR="$HOME/build/villagesql"
 ## Resources
 
 - [VillageSQL Documentation](https://villagesql.com/docs)
-- [VillageSQL Extension Framework (VEF) Guide](https://villagesql.com/docs)
+- [Guide to writing C++ Extensions](https://villagesql.com/docs/guides/cpp-extensions)
 - [CMake Documentation](https://cmake.org/documentation/)
 
 ## License
