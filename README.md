@@ -2,6 +2,10 @@
 
 A minimal template project for creating VillageSQL extensions. This template provides the essential structure and files needed to develop, build, and test custom VillageSQL extensions.
 
+**Docs:** [VillageSQL documentation](https://villagesql.com/docs) ·
+[Writing extensions in C++](https://villagesql.com/docs/guides/cpp-extensions) ·
+[Install VillageSQL Server](https://villagesql.com/install)
+
 ## What This Is
 
 This template demonstrates how to create a VillageSQL extension by implementing a simple "Hello, World!" function. It includes all the minimum required files and follows the VillageSQL extension framework (VEF) structure.
@@ -37,8 +41,6 @@ vsql_extension_template/
   (`INSTALL_METHOD=prebuilt` picks the path that installs the SDK locally; the
   Docker option keeps it inside the image.) A VillageSQL build directory works
   too, if you already have one.
-
-📚 **Full Documentation**: Visit [villagesql.com/docs](https://villagesql.com/docs) for comprehensive guides on building extensions, architecture details, and more.
 
 ## Building the Extension
 > **Note:** These steps are the same on Linux and macOS. Paths use `$HOME`.
