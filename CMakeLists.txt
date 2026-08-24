@@ -16,6 +16,13 @@
 cmake_minimum_required(VERSION 3.18)
 project(vsql_extension_template)
 
+# Default to an optimized build. An empty CMAKE_BUILD_TYPE yields -O0 (no
+# -O flag applied), which builds and runs but leaves the code unoptimized.
+# Override with -DCMAKE_BUILD_TYPE=.
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  set(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING "Build type" FORCE)
+endif()
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
