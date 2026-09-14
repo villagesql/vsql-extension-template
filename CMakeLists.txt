@@ -16,6 +16,22 @@
 cmake_minimum_required(VERSION 3.18)
 project(vsql_extension_template)
 
+# Default to an optimized build. An empty CMAKE_BUILD_TYPE yields -O0 (no
+# -O flag applied), which builds and runs but leaves the code unoptimized.
+# Override with -DCMAKE_BUILD_TYPE=.
+#
+# -DWITH_DEBUG=ON means "give me a debug build" -- it takes priority over
+# any explicitly passed CMAKE_BUILD_TYPE and forces Debug, so NDEBUG is
+# never defined (RelWithDebInfo/Release both define it, which would
+# silently compile out every #ifndef NDEBUG check and every assert()).
+if(NOT CMAKE_CONFIGURATION_TYPES)
+  if(WITH_DEBUG)
+    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
+  elseif(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING "Build type" FORCE)
+  endif()
+endif()
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
