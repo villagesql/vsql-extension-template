@@ -42,7 +42,7 @@
 
 # Build directories
 build/
-*.vef
+*.veb
 
 # Local AGENTS files
 AGENTS.local.md
