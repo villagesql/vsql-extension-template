@@ -31,16 +31,11 @@ vsql_extension_template/
 
 - CMake 3.18 or higher
 - C++ compiler with C++17 support
-- VillageSQL. You do **not** need to build the server from source. The install
-  script sets up a server *and* the extension SDK under `~/.villagesql`:
-
-  ```bash
-  curl -fsSL https://install.villagesql.com | INSTALL_METHOD=prebuilt bash
-  ```
-
-  (`INSTALL_METHOD=prebuilt` picks the path that installs the SDK locally; the
-  Docker option keeps it inside the image.) A VillageSQL build directory works
-  too, if you already have one.
+- VillageSQL. You do **not** need to build the server from source. Install it
+  with the [install script](https://villagesql.com/docs/mysql-8.4/stable/quickstart) and choose **Prebuilt**, not Docker: a
+  prebuilt install puts the server *and* the extension SDK under
+  `~/.villagesql`, while Docker keeps the SDK inside the image. A VillageSQL
+  build directory works too, if you already have one.
 
 ## Building the Extension
 > **Note:** These steps are the same on Linux and macOS. Paths use `$HOME`.
