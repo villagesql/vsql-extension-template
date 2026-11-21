@@ -59,7 +59,8 @@ This module defines the following variables:
 
 ``VillageSQL_VEB_INSTALL_DIR``
   Directory for installing VEB files. Automatically set when using
-  ``VillageSQL_BUILD_DIR`` to point to ``veb_output_directory`` in the build tree.
+  ``VillageSQL_BUILD_DIR`` to ``lib/veb`` in that directory, which is where the
+  server reads extensions.
 
 Cache Variables
 ^^^^^^^^^^^^^^^
@@ -67,7 +68,7 @@ Cache Variables
 ``VillageSQL_BUILD_DIR``
   Set this to the VillageSQL build directory for development builds.
   The SDK will be found in the staged SDK directory, and
-  ``VillageSQL_VEB_INSTALL_DIR`` will be set to ``veb_output_directory`` in the build tree.
+  ``VillageSQL_VEB_INSTALL_DIR`` will be set to ``lib/veb`` in that directory.
 
 ``VillageSQL_SDK_DIR``
   Set this variable to the SDK installation directory to override
@@ -123,9 +124,11 @@ if(VillageSQL_BUILD_DIR AND NOT _villagesql_found)
           ERROR_QUIET
         )
       endif()
-      # Auto-set VEB install directory to the build tree
+      # Install into lib/veb, where the server reads extensions. A source
+      # build tree has lib/veb as a link to veb_output_directory; a release
+      # tarball has lib/veb alone.
       if(NOT DEFINED VillageSQL_VEB_INSTALL_DIR)
-        set(VillageSQL_VEB_INSTALL_DIR "${VillageSQL_BUILD_DIR}/veb_output_directory")
+        set(VillageSQL_VEB_INSTALL_DIR "${VillageSQL_BUILD_DIR}/lib/veb")
       endif()
       set(_villagesql_found TRUE)
       message(STATUS "Using VillageSQL SDK from build directory: ${_sdk_dir}")
